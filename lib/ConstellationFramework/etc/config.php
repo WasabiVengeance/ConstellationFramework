@@ -11,9 +11,9 @@ $sql_log     = function($string){	lgr::write($string,'sql'); };
 $config = array(
 	'lgr'=>array(
 		'logs'=>array(
-			'default'=>'/tmp/dev-default.log',
-			'sql'=>'/tmp/dev-sql.log',
-			'error'=>'/tmp/dev-error.log',
+			'default'=>__DIR__.'/../../../var/log/default.log',
+			'sql'=>__DIR__.'/../../../var/log/sql.log',
+			'error'=>__DIR__.'/../../../var/log/error.log',
 		)
 	),	
 	'bsc'=>array(
@@ -23,19 +23,10 @@ $config = array(
 		),
 		'libs'=>array(
 			'css'=>array(
-				'/media/css/combined.min.css',
-				#'//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css',
-				#'//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.min.css',
-				#'/lib/BootstrapConstructor/lib/css/data-table.css',
+				'/media/combined.min.css',
 			),
 			'js'=>array(
-				'/media/js/combined.min.js',
-				#'//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
-				#'/lib/BootstrapConstructor/lib/js/bsc.widget.dataTable.js',
-				#'//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js',
-				#'/media/js/combined.js',
-				#'/lib/jQueryHashchange/jquery.ba-hashchange.js',
-				#'/lib/JsonVC/lib/js/jvc.js',
+				'/media/combined.min.js',
 			),
 		),
 		'initial_js'=>"
