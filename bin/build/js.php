@@ -30,6 +30,7 @@ $files = array(
 	$base.'lib/LanguageHelper/lib/js/lng.js',
 	$base.'lib/Logger/lib/js/lgr.js',
 	$base.'lib/SessionManager/lib/js/ssm.js',
+	$base.'lib/ConstellationFramework/lib/js/csn.js',
 );
 
 foreach($files as $file)
