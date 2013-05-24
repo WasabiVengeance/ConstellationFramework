@@ -32,6 +32,7 @@
 [submodule "lib/jsmin-php"]
 	path = lib/jsmin-php
 	url = git@github.com:eriknyk/jsmin-php.git
-[submodule "lib/jqueryy-hashchange"]
-	path = lib/jqueryy-hashchange
+
+[submodule "lib/jquery-hashchange"]
+	path = lib/jquery-hashchange
 	url = https://github.com/bp323/jquery-hashchange

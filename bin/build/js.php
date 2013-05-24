@@ -3,6 +3,7 @@
 $input = '';
 $base = __DIR__.'/../../';
 include(__DIR__.'/../../lib/jsmin-php/jsmin.php');
+echo("Building JS... ");
 
 $files = array(
 	'http://code.jquery.com/jquery-1.9.1.min.js',
@@ -18,6 +19,7 @@ $files = array(
 	$base.'lib/TwitterBootstrap/js/tab.js',
 	$base.'lib/TwitterBootstrap/js/tooltip.js',
 	$base.'lib/TwitterBootstrap/js/transition.js',
+	$base.'lib/jquery-hashchange/jquery.ba-hashchange.js',
 	$base.'lib/BootstrapConstructor/lib/js/bsc.js',
 	$base.'lib/BootstrapConstructor/lib/js/bsc.form.js',
 	$base.'lib/BootstrapConstructor/lib/js/bsc.widget.js',
@@ -35,6 +37,8 @@ foreach($files as $file)
 	$input .= file_get_contents($file).';';
 }
 
-echo JSMin::minify($input);
+file_put_contents(__DIR__.'/../../www/media/combined.js',$input);
+file_put_contents(__DIR__.'/../../www/media/combined.min.js',JSMin::minify($input));
 
+echo("     COMPLETE!\n");
 ?>
