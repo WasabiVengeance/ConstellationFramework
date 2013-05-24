@@ -36,3 +36,6 @@
 [submodule "lib/jquery-hashchange"]
 	path = lib/jquery-hashchange
 	url = https://github.com/bp323/jquery-hashchange
+[submodule "lib/FontAwesome"]
+	path = lib/FontAwesome
+	url = git@github.com:FortAwesome/Font-Awesome.git
