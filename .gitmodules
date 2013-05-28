@@ -39,3 +39,6 @@
 [submodule "lib/FontAwesome"]
 	path = lib/FontAwesome
 	url = git@github.com:FortAwesome/Font-Awesome.git
+[submodule "lib/console.js"]
+	path = lib/console.js
+	url = git@github.com:NV/console.js.git
