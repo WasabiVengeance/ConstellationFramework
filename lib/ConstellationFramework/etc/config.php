@@ -66,10 +66,9 @@ $config = array(
 			}
 		),
 		'paths'=>array(
-			'base'=>__DIR__,
+			'base'=>__DIR__.'/../../../www/',
 		),
 		'config_file'=>'config.php',
-		#'commands-pre-page'=>array('test/navigation'),
 	),
 	'lng'=>array(
 		'hooks'=>array('log'=>$default_log),
