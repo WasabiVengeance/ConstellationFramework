@@ -1,44 +1,52 @@
 #!/usr/bin/php
 <?php
-
-# startup lessc and add all import dirs
-include(__DIR__.'/../../lib/lessphp/lessc.inc.php');
-$less = new lessc();
-$less->addImportDir(__DIR__."/../../lib/TwitterBootstrap/less/");
-$less->addImportDir(__DIR__."/../../lib/BootstrapConstructor/lib/less/");
-$less->addImportDir(__DIR__."/../../www/media/less/");
 echo("Building CSS...");
 
-# build a list of imports
+# first, build the entry point for all of the less.
+$entry_less = __DIR__.'/../../www/media/less/all-'.md5(time()).'.less';
 $to_compile .= '@import "bootstrap";'."\n";
-$to_compile .= '@import "data-table";'."\n";
 if(file_exists(__DIR__.'/../../www/media/less/customizations.less'))
 {
 	$to_compile .= '@import "customizations";'."\n";
 }
+file_put_contents($entry_less,$to_compile);
 
 
-$fontawesome = file_get_contents(__DIR__.'/../../lib/FontAwesome/build/assets/font-awesome/css/font-awesome.css');
-$fontawesome_min = file_get_contents(__DIR__.'/../../lib/FontAwesome/build/assets/font-awesome/css/font-awesome.min.css');
-$fontawesome = str_replace('../font/','fonts/',$fontawesome);
-$fontawesome_min = str_replace('../font/','fonts/',$fontawesome_min);
 
-file_put_contents(
-	__DIR__.'/../../www/media/combined.css',
-	$less->compile($to_compile)."\n".$fontawesome
-);
-$less->setFormatter("compressed");
-file_put_contents(
-	__DIR__.'/../../www/media/combined.min.css',
-	$less->compile($to_compile)."\n".$fontawesome_min
-);
-
-copy(__DIR__.'/../../lib/FontAwesome/build/assets/font-awesome/font/fontawesome-webfont.eot',__DIR__.'/../../www/media/fonts/fontawesome-webfont.eot');
-copy(__DIR__.'/../../lib/FontAwesome/build/assets/font-awesome/font/fontawesome-webfont.svg',__DIR__.'/../../www/media/fonts/fontawesome-webfont.svg');
-copy(__DIR__.'/../../lib/FontAwesome/build/assets/font-awesome/font/fontawesome-webfont.ttf',__DIR__.'/../../www/media/fonts/fontawesome-webfont.ttf');
-copy(__DIR__.'/../../lib/FontAwesome/build/assets/font-awesome/font/fontawesome-webfont.woff',__DIR__.'/../../www/media/fonts/fontawesome-webfont.woff');
-copy(__DIR__.'/../../lib/FontAwesome/build/assets/font-awesome/font/FontAwesome.otf',__DIR__.'/../../www/media/fonts/FontAwesome.otf');
+try
+{
 
 
-echo("     COMPLETE!\n");
+	$cmd = "recess --compile  --includePath=".__DIR__."/../../lib/TwitterBootstrap/less/ ".$entry_less;
+	if(file_exists(__DIR__.'/../../www/media/combined.css'))
+		unlink(__DIR__.'/../../www/media/combined.css');
+	$final_uncompressed_css = shell_exec($cmd);
+
+	$cmd = "recess --compile --compress --includePath=".__DIR__."/../../lib/TwitterBootstrap/less/ ".$entry_less;
+	if(file_exists(__DIR__.'/../../www/media/combined.min.css'))
+		unlink(__DIR__.'/../../www/media/combined.min.css');
+	$final_compressed_css = shell_exec($cmd);	
+	
+
+	
+	# build/fix the font awesome css.
+	$fontawesome = file_get_contents(__DIR__.'/../../lib/FontAwesome/build/assets/font-awesome/css/font-awesome.css');
+	$fontawesome_min = file_get_contents(__DIR__.'/../../lib/FontAwesome/build/assets/font-awesome/css/font-awesome.min.css');
+	$final_uncompressed_css .= str_replace('../font/','fonts/',$fontawesome);
+	$final_compressed_css .= str_replace('../font/','fonts/',$fontawesome_min);
+
+	file_put_contents(__DIR__.'/../../www/media/combined.css',$final_uncompressed_css);
+	file_put_contents(__DIR__.'/../../www/media/combined.min.css',$final_compressed_css);
+
+	# remove the entry point.
+	unlink($entry_less);
+	echo("     COMPLETE!\n");
+}
+catch(Exception $e)
+{
+	unlink($entry_less);
+	exit("Error: ".print_r($e,true));
+	
+}
+
 ?>
