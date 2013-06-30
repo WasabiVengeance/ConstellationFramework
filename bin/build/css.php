@@ -30,8 +30,8 @@ try
 
 	
 	# build/fix the font awesome css.
-	$fontawesome = file_get_contents(__DIR__.'/../../lib/FontAwesome/build/assets/font-awesome/css/font-awesome.css');
-	$fontawesome_min = file_get_contents(__DIR__.'/../../lib/FontAwesome/build/assets/font-awesome/css/font-awesome.min.css');
+	$fontawesome = file_get_contents(__DIR__.'/../../lib/FontAwesome/css/font-awesome.css');
+	$fontawesome_min = file_get_contents(__DIR__.'/../../lib/FontAwesome/css/font-awesome.min.css');
 	$final_uncompressed_css .= str_replace('../font/','fonts/',$fontawesome);
 	$final_compressed_css .= str_replace('../font/','fonts/',$fontawesome_min);
 
