@@ -37,7 +37,7 @@ class csn
 
 		# output the page
 		jvc::process('pre-page');
-		include(__DIR__.'/../../../../www/layouts/2col-3-9.php');
+		include(__DIR__.'/../../../../www/layouts/'.$config['csn']['layout'].'.php');
 		jvc::process('post-page');
 		echo($page);
 	

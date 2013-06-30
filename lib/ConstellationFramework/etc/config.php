@@ -9,6 +9,10 @@ $page_log   = function($string){	jvc::set_response('footer',$string.'<br />','pr
 $sql_log     = function($string){	lgr::write($string,'sql'); };
 
 $config = array(
+	'csn'=>array(
+		'layout'=>'2col-3-9',
+		'stage'=>'',
+	),
 	'lgr'=>array(
 		'logs'=>array(
 			'default'=>__DIR__.'/../../../var/log/default.log',
@@ -25,16 +29,13 @@ $config = array(
 			'css'=>array(
 				'/media/combined.min.css',
 			),
-			'js'=>array(
+			'head_Js'=>array(
+			),
+			'foot_js'=>array(
 				'/media/combined.min.js',
 			),
 		),
-		'initial_js'=>"
-			jvc['afterAjaxResponseJS'] = '$(\'[rel=popover]\').popover();$(\'[rel=tooltip]\').tooltip();';
-			jvc['beforeAjaxSubmit'] = dvr.validate;
-			jvc['showFormErrors'] = bsc.form.showErrors;
-			jvc['clearFormErrors'] = bsc.form.clearErrors;
-		",
+		'initial_js'=>"",
 	),
 	'dbm'=>array(
 		'type'=>'mysql',
