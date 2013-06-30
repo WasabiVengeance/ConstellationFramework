@@ -8,8 +8,9 @@ $page = bsc::page(jvc::get_response('title'))
 	->description(jvc::get_response('keywords'))
 	->description(jvc::get_response('author'))
 	->css($config['bsc']['libs']['css'])
-	->js($config['bsc']['libs']['js'])
-	->onload('jvc.init();');
+	->head_js($config['bsc']['libs']['head_js'])
+	->foot_js($config['bsc']['libs']['foot_js'])
+	->onload('csn.init();');
 
 $page->add(
 	bsc::row()->add(

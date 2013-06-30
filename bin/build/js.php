@@ -14,13 +14,13 @@ $files = array(
 	$base.'lib/TwitterBootstrap/js/collapse.js',
 	$base.'lib/TwitterBootstrap/js/dropdown.js',
 	$base.'lib/TwitterBootstrap/js/modal.js',
-	$base.'lib/TwitterBootstrap/js/popover.js',
+	#$base.'lib/TwitterBootstrap/js/popover.js',
 	$base.'lib/TwitterBootstrap/js/scrollspy.js',
 	$base.'lib/TwitterBootstrap/js/tab.js',
 	$base.'lib/TwitterBootstrap/js/tooltip.js',
 	$base.'lib/TwitterBootstrap/js/transition.js',
 	$base.'lib/console.js/console.js',
-	$base.'lib/ConstellationFramework/lib/js/csn.js',
+	$base.'lib/jquery-hashchange/jquery.ba-hashchange.js',
 	$base.'lib/BootstrapConstructor/lib/js/bsc.js',
 	$base.'lib/BootstrapConstructor/lib/js/bsc.form.js',
 	$base.'lib/BootstrapConstructor/lib/js/bsc.widget.js',
@@ -36,7 +36,7 @@ $files = array(
 
 foreach($files as $file)
 {
-	$input .= file_get_contents($file).';';
+	$input .= file_get_contents($file)."\n";
 }
 
 file_put_contents(__DIR__.'/../../www/media/combined.js',$input);
