@@ -1,0 +1,44 @@
+[submodule "lib/TwitterBootstrap"]
+	path = lib/TwitterBootstrap
+	url = git://github.com/twitter/bootstrap.git
+[submodule "lib/lessphp"]
+	path = lib/lessphp
+	url = git@github.com:leafo/lessphp.git
+
+[submodule "lib/JsonVC"]
+	path = lib/JsonVC
+	url = git@github.com:WasabiVengeance/JsonVC.git
+[submodule "lib/DatabaseManager"]
+	path = lib/DatabaseManager
+	url = git@github.com:WasabiVengeance/DatabaseManager.git
+[submodule "lib/BootstrapConstructor"]
+	path = lib/BootstrapConstructor
+	url = git@github.com:WasabiVengeance/BootstrapConstructor.git
+[submodule "lib/DataValidator"]
+	path = lib/DataValidator
+	url = git@github.com:WasabiVengeance/DataValidator.git
+[submodule "lib/LanguageHelper"]
+	path = lib/LanguageHelper
+	url = git@github.com:WasabiVengeance/LanguageHelper.git
+[submodule "lib/DataFormatter"]
+	path = lib/DataFormatter
+	url = git@github.com:WasabiVengeance/DataFormatter.git
+[submodule "lib/Logger"]
+	path = lib/Logger
+	url = git@github.com:WasabiVengeance/Logger.git
+[submodule "lib/SessionManager"]
+	path = lib/SessionManager
+	url = git@github.com:WasabiVengeance/SessionManager.git
+[submodule "lib/jsmin-php"]
+	path = lib/jsmin-php
+	url = git@github.com:eriknyk/jsmin-php.git
+
+[submodule "lib/jquery-hashchange"]
+	path = lib/jquery-hashchange
+	url = https://github.com/bp323/jquery-hashchange
+[submodule "lib/FontAwesome"]
+	path = lib/FontAwesome
+	url = git@github.com:FortAwesome/Font-Awesome.git
+[submodule "lib/console.js"]
+	path = lib/console.js
+	url = git@github.com:NV/console.js.git
