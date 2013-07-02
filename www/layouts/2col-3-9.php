@@ -13,6 +13,7 @@ $page = bsc::page(jvc::get_response('title'))
 	->onload('csn.init();');
 
 $page->add(
+	jvc::get_response('top'),
 	bsc::row()->add(
 		bsc::div()->span(12)->add(
 			bsc::navbar()->id('header')->add(jvc::get_response('header'))
@@ -26,7 +27,8 @@ $page->add(
 		bsc::div()->span(12)->add(
 			bsc::navbar()->id('footer')->add(jvc::get_response('footer'))
 		)
-	)
+	),
+	jvc::get_response('bottom')
 );
 
 ?>
