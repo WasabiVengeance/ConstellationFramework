@@ -17,7 +17,7 @@ try
 {
 
 
-	$cmd = "recess --compile  --includePath=".__DIR__."/../../lib/TwitterBootstrap/less/ ".$entry_less;
+	$cmd = "recess --compile  --includePath=".__DIR__."/../../lib/TwitterBootstrap/less/:".__DIR__."/../../www/media/less/ ".$entry_less;
 	if(file_exists(__DIR__.'/../../www/media/combined.css'))
 		unlink(__DIR__.'/../../www/media/combined.css');
 	$final_uncompressed_css = shell_exec($cmd);
@@ -40,7 +40,7 @@ try
 
 	# remove the entry point.
 	unlink($entry_less);
-	echo("     COMPLETE!\n");
+	echo("         COMPLETE!\n");
 }
 catch(Exception $e)
 {

@@ -42,5 +42,5 @@ foreach($files as $file)
 file_put_contents(__DIR__.'/../../www/media/combined.js',$input);
 file_put_contents(__DIR__.'/../../www/media/combined.min.js',JSMin::minify($input));
 
-echo("     COMPLETE!\n");
+echo("         COMPLETE!\n");
 ?>
