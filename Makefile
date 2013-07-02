@@ -8,8 +8,12 @@ HR=\033[37m--------------------------------------------------\033[39m
 # BUILD 
 #
 
-build:
-	@php -f bin/build/all.php
+build-includes:
+	@php -f bin/build/includes.php
+
+build-db:
+	@php -f bin/build/db.php
+	
 	
 	
 #
