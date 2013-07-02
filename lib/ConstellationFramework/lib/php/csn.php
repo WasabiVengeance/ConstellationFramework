@@ -2,12 +2,12 @@
 
 class csn
 {
-	public static function init($www_dir)
+	public static function init($base_dir,$db_init=true)
 	{
 		global $config;
 		include(__DIR__.'/../../etc/config.php');
-		include($www_dir.'/../etc/config.php');
-
+		include($base_dir.'etc/config.php');
+	
 		# include all libraries
 		include(__DIR__.'/../../../Logger/lib/php/lgr.php');
 		include(__DIR__.'/../../../BootstrapConstructor/lib/php/bsc.php');
@@ -21,12 +21,14 @@ class csn
 		# init all libraries. Order is unimportant, other than lgr must be first.
 		lgr::init($config['lgr']);
 		bsc::init($config['bsc']);
-		dbm::init($config['dbm']);
+		if($db_init)
+			dbm::init($config['dbm']);
 		dvr::init($config['dvr']);
 		dfm::init($config['dfm']);
 		jvc::init($config['jvc']);
 		lng::init($config['lng']);
 		ssm::init($config['ssm']);
+		
 	}
 	
 	public static function process()
