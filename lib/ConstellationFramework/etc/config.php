@@ -12,6 +12,8 @@ $config = array(
 	'csn'=>array(
 		'layout'=>'2col-3-9',
 		'stage'=>'',
+		'stages'=>array(
+		)
 	),
 	'lgr'=>array(
 		'logs'=>array(
@@ -44,7 +46,7 @@ $config = array(
 		'password'=>'dbm_testuser',
 		'database'=>'dbm_testdb',
 		'hooks'=>array('log'=>$sql_log),
-		'model_path'=>__DIR__.'/models/',
+		'model_path'=>__DIR__.'/../../../db/models/',
 	),
 	'dvr'=>array(
 		'hooks'=>array('log'=>$default_log),
