@@ -1,1 +1,9 @@
-git remote add --mirror=fetch upstream  git@github.com:WasabiVengeance/ConstellationFramework.git
+
+# for me, the owner, to fork via GitHub
+create a new repo
+Checkout the repo
+git remote add upstream git@github.com:WasabiVengeance/ConstellationFramework.git
+git merge upstream/master    
+
+
+#git remote add --mirror=fetch upstream  git@github.com:WasabiVengeance/ConstellationFramework.git
