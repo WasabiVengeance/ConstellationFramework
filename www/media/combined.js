@@ -2467,6 +2467,7 @@ var bsc={};
 bsc.form={};
 
 bsc.form.clearErrors=function(formObj){
+	$('.bsc-form-error-msg').hide();
 	for(var i=0;i<formObj.elements.length;i++){
 		var obj = $(formObj.elements[i]).parent().parent();
 		if(obj.hasClass('has-error')){
@@ -2479,6 +2480,7 @@ bsc.form.showErrors=function(formObj,errorList){
 	var first = true;
 	for(var inputName in errorList){
 		var obj = $(formObj[inputName]).parent().parent();
+		obj.find('.bsc-form-error-msg').html(errorList[inputName]).show();
 		obj.removeClass('has-success').addClass('has-error');
 		if(first)
 			formObj[inputName].focus();
@@ -2520,11 +2522,24 @@ bsc.widget.dataTable=function(id,url,curPage,maxPage,rowCount,sortCol,sortDir,fi
 	this.sortCol = sortCol;
 	this.sortDir = sortDir;
 	this.filters = filters;
+	this.filterDelayTimeout = 0;
+	this.filterDelayObj = null;
 }
 bsc.widget.dataTable.objs={};
 
 bsc.widget.dataTable.create=function(id,url,curPage,maxPage,pageSize,sortCol,sortDir,filters){
 	bsc.widget.dataTable.objs[id] = new bsc.widget.dataTable(id,url,curPage,maxPage,pageSize,sortCol,sortDir,filters);
+}
+
+bsc.widget.dataTable.prototype.applyDelayedFilter=function(filterName,formObj){
+	console.log('applying delayed filter now');
+	window.clearTimeout(this.filterDelayTimeout);
+	this.filterDelayObj = formObj;
+	this.filterDelayTimeout = window.setTimeout(
+		Function('',"bsc.widget.dataTable.objs['"+this.id+"'].applyFilter('"+filterName+"',bsc.widget.dataTable.objs['"+this.id+"'].filterDelayObj);"),
+		500
+	);
+	
 }
 
 bsc.widget.dataTable.prototype.applyFilter=function(filterName,formObj){
@@ -2540,7 +2555,6 @@ bsc.widget.dataTable.prototype.applyFilter=function(filterName,formObj){
 }
 
 bsc.widget.dataTable.prototype.changePage=function(newPage){
-	alert('test');
 	switch(newPage){
 		case 'first':
 			this.curPage = 0;
@@ -2603,12 +2617,12 @@ bsc.widget.dataTable.prototype.changeRowCount=function(newCount){
 }
 
 bsc.widget.dataTable.prototype.updateProgress=function(){
+	console.log('progress is now: '+this.progressLevel);
 	if(this.progressLevel < 100){
 		this.progressLevel += 5;
 		$('#'+this.id+' > thead > tr.progress > td > div.progress > div.progress-bar').css('width',this.progressLevel+'%');
 	}else{
 		$('#'+this.id+' > thead > tr.progress > td > span').show();
-		
 	}
 }
 
@@ -2621,9 +2635,9 @@ bsc.widget.dataTable.prototype.refreshData=function(){
 	this.progressLevel = 0;
 	$('#'+this.id+' > thead > tr.progress > td > div.progress > div.progress-bar').css('width','0%');
 	window.clearInterval(this.progressInterval);
-	this.progressInterval=window.setInterval('bsc.widget.dataTable.objs[\''+this.id+'\'].updateProgress();',100);
+	window.clearTimeout(this.progressTimeout);
+	this.progressTimeout=window.setTimeout('bsc.widget.dataTable.objs[\''+this.id+'\'].startProgress();',1000);
 	$('#'+this.id+' > tbody').hide();
-	$('#'+this.id+' > thead > tr.progress').show(500);
 	
 	for(var key in this.filters){
 		if(typeof(this.filters[key].value) != 'object'){
@@ -2641,6 +2655,8 @@ bsc.widget.dataTable.prototype.refreshData=function(){
 
 bsc.widget.dataTable.prototype.handleDataUpdate=function(data){
 	var table = bsc.widget.dataTable.objs[data.id];
+	window.clearInterval(table.progressInterval);
+	window.clearTimeout(table.progressTimeout);
 	table.curPage = data.current_page;
 	table.maxPage = data.max_page;
 	table.rowCount = data.row_count;
@@ -2652,6 +2668,7 @@ bsc.widget.dataTable.prototype.handleDataUpdate=function(data){
 
 bsc.widget.dataTable.prototype.updateHeadersPagers=function(){
 	// set the pager text
+	
 	var selector = $('#'+this.id+'-pager-selector');
 	if(this.rowCount == 0)
 		selector.parent().hide();
@@ -2684,11 +2701,22 @@ bsc.widget.dataTable.prototype.updateHeadersPagers=function(){
 	$('#'+this.id+'-sorter').val(this.sortCol+'--'+this.sortDir);
 }
 
+bsc.widget.dataTable.prototype.startProgress=function(){
+	window.clearTimeout(this.progressTimeout);
+	console.log('starting progress bar');
+	this.progressLevel = 0;
+	
+	this.progressInterval=window.setInterval('bsc.widget.dataTable.objs[\''+this.id+'\'].updateProgress();',300);
+	$('#'+this.id+' > thead > tr.progress').show(500);
+	
+}
+
 bsc.widget.dataTable.prototype.insertData=function(data){
+	console.log('inserting data now');
 	var html = '';
-	window.clearInterval(this.progressInterval);
+	$('#'+this.id+' > tbody').fadeOut('slow');
 	if(data.length == 0){
-		$('#'+this.id+' > tbody,#'+this.id+' > tfoot').hide();
+		$('#'+this.id+' > tbody,#'+this.id+' > tfoot,#'+this.id+' > thead > tr.progress,#'+this.id+' > thead > tr.progress > td > span').hide();
 		$('#'+this.id+' > thead > tr.empty').show();
 	}else{
 		$('#'+this.id+' > tfoot').show();
@@ -2700,12 +2728,12 @@ bsc.widget.dataTable.prototype.insertData=function(data){
 			}
 			html += '</tr>';
 		}
-		$('#'+this.id+' > tbody').html(html).show();
+	
 		$('html, body').animate({
 			scrollTop: $('#'+this.id).offset().top
 		}, 200);
 		$('#'+this.id+' > thead > tr.progress,#'+this.id+' > thead > tr.progress > td > span').hide();
-		$('#'+this.id+' > tbody').show(500);
+		$('#'+this.id+' > tbody').html(html).fadeIn('slow');
 	}
 }
 
@@ -2717,8 +2745,10 @@ var dbm={};
 // license that can be found in the LICENSE file.
 
 var dvr={'rulesets':{},'functions':{}};
+
+
 dvr.validate=function(data,ruleset){
-	if(typeof(data) == 'object'){
+	if(typeof(data) == 'object' && typeof(dvr.rulesets[ruleset]) == 'object'){
 		var passes = true;
 		var errors = {};
 		for(var i=0; i<dvr.rulesets[ruleset].length;i++){
@@ -2744,6 +2774,7 @@ dvr.validate=function(data,ruleset){
 		return [passes,errors];
 	}
 	else{
+		return [true,[]];
 	}
 };
 
@@ -2801,7 +2832,9 @@ dvr.functions.notequals=function(v,d1,d2,d3){
 var jvc={
 	'afterAjaxResponseJS':'',
 	'beforeAjaxSubmit':'',
-	'formErrors':''
+	'beforeNavigate':'',
+	'clearFormErrors':'',
+	'showFormErrors':'',
 };
 
 jvc.init=function(){
@@ -2815,26 +2848,60 @@ jvc.init=function(){
 				data[urlData[i]] = urlData[i+1];
 			}
 		}
-		if(urlParts[0]+'' != 'undefined' && urlParts[0]+''!='')
+		if(urlParts[0]+'' != 'undefined' && urlParts[0]+''!=''){
+			if(jvc['beforeNavigate'] != ''){	
+				jvc['beforeNavigate']();
+			}
 			jvc.requestData(urlParts[0],data);
+		}
 	})
 	$(window).hashchange();
 }
 
 jvc.formatFormData=function(formObj){
-	var data = formObj.serializeArray();
 	var toReturn = {};
-	for(i=0;i<data.length;i++){
-		toReturn[data[i].name] = data[i].value;
+	var s = '';
+	for(var i=0;i<formObj.elements.length;i++){
+		var elem = formObj.elements[i];
+		
+		var name = elem.getAttribute('name');
+		var id   = elem.getAttribute('id');
+		var tag  = new String(elem.tagName).toLowerCase();
+		
+		if(typeof(name) == 'undefined' || name == null || name == '')
+			name = id;	
+		
+		var value = elem.value;
+		switch(tag){
+			case 'select': 
+				toReturn[name] = elem.options[elem.selectedIndex].value;
+				break;2
+			case 'input':
+				var type = new String(elem.getAttribute('type')).toLowerCase();
+				if(type == 'radio'){
+					if(elem.checked){
+						toReturn[name] = value;
+					}
+				}else if(type == 'checkbox'){
+					if(elem.checked){
+						toReturn[name] = 1;
+					}
+				}else if(type == 'text'){
+					toReturn[name] = value;
+				}
+				break;
+			case 'textarea':
+				toReturn[name] = value;
+				break;
+		}
 	}
 	return toReturn;
 }
 
 jvc.submitForm=function(form){
 	var formObj = $(form);
-	var data    = jvc.formatFormData(formObj);
-	
-	if(jvc['beforeAjaxSubmit'] != ''){	
+	var data    = jvc.formatFormData(form);
+	if(jvc['beforeAjaxSubmit'] != '' && jvc['clearFormErrors'] != '' && jvc['showFormErrors'] != ''){	
 		jvc['clearFormErrors'](form);
 		var result  = jvc['beforeAjaxSubmit'](data,formObj.attr('name'));
 		if(!result[0]){
@@ -2923,6 +2990,7 @@ jvc.handleResponse=function(json,textStatus){
 				break;
 		}
 	}
+	$('html, body').animate({scrollTop: 0}, 200);
 	eval(js + jvc.afterAjaxResponseJS);
 };
 
@@ -2942,7 +3010,13 @@ csn.init=function(){
 }
 
 // configure JVC to handle bootstrap stuff, link in validator
-jvc['afterAjaxResponseJS'] = '$(\'[rel=popover]\').popover();$(\'[rel=tooltip]\').tooltip();';
+//jvc['afterAjaxResponseJS'] = '$(\'[rel=popover]\').popover();$(\'[rel=tooltip]\').tooltip();';
 jvc['beforeAjaxSubmit'] = dvr.validate;
 jvc['showFormErrors'] = bsc.form.showErrors;
 jvc['clearFormErrors'] = bsc.form.clearErrors;
+jvc['beforeNavigate'] = function(){
+	var navBar = $('.navbar-responsive-collapse');
+	if(!navBar.hasClass('collapse')){
+		navBar.collapse('toggle');
+	}
+}

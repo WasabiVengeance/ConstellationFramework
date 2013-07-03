@@ -1,0 +1,34 @@
+
+@navbar-inverse-bg:                         #07468E;
+@navbar-inverse-color: #fff;
+@navbar-inverse-link-color: #fff;
+
+body { 
+	padding-bottom: 70px;
+	padding-top: 70px;
+	
+}
+
+.btn{
+  &:active,
+  &.active {
+    outline: 0;
+    .btn-success{
+		.btn-pseudo-states(darken(@btn-success-color,5%), darken(@btn-success-bg,5%), darken(@btn-success-border,5%));
+	}
+    .btn-info{
+		.btn-pseudo-states(darken(@btn-info-color,5%), darken(@btn-info-bg,5%), darken(@btn-info-border,5%));
+	}
+    .btn-warning{
+		.btn-pseudo-states(darken(@btn-warning-color,5%), darken(@btn-warning-bg,5%), darken(@btn-warning-border,5%));
+	}
+    color: #fff;
+    background-image: none;
+    .box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
+  }
+}
+
+.action_buttons{
+	text-align: right;
+	padding-top: 10px;
+}
