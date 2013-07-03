@@ -16,7 +16,7 @@ $page->add(
 	jvc::get_response('top'),
 	bsc::row()->add(
 		bsc::div()->span(12)->add(
-			bsc::navbar()->id('header')->add(jvc::get_response('header'))
+			jvc::get_response('header')
 		)
 	),
 	bsc::row()->add(
@@ -24,7 +24,7 @@ $page->add(
 	),
 	bsc::row()->add(
 		bsc::div()->span(12)->add(
-			bsc::navbar()->id('footer')->add(jvc::get_response('footer'))
+			jvc::get_response('footer')
 		)
 	),
 	jvc::get_response('bottom')

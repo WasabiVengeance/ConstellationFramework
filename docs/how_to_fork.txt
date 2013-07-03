@@ -4,6 +4,6 @@ create a new repo
 Checkout the repo
 git remote add upstream git@github.com:WasabiVengeance/ConstellationFramework.git
 git merge upstream/master    
-
+git submodule update --init
 
 #git remote add --mirror=fetch upstream  git@github.com:WasabiVengeance/ConstellationFramework.git

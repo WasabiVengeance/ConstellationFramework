@@ -28,6 +28,12 @@ try
 	$final_compressed_css = shell_exec($cmd);	
 	
 
+	# include some misc stylesheets
+	$final_uncompressed_css .= file_get_contents(__DIR__.'/../../lib/BootstrapConstructor/lib/css/data-table.css');
+	$final_compressed_css .= file_get_contents(__DIR__.'/../../lib/BootstrapConstructor/lib/css/data-table.css');
+	$final_uncompressed_css .= file_get_contents(__DIR__.'/../../lib/BootstrapConstructor/lib/css/forms.css');
+	$final_compressed_css .= file_get_contents(__DIR__.'/../../lib/BootstrapConstructor/lib/css/forms.css');
+
 	
 	# build/fix the font awesome css.
 	$fontawesome = file_get_contents(__DIR__.'/../../lib/FontAwesome/css/font-awesome.css');
